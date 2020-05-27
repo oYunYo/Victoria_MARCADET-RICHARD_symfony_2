@@ -1,0 +1,51 @@
+{% block menu %}
+    {% include 'parts/menu.html.twig' %}
+{% endblock menu %}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajout d'un employé{% endblock %}
+
+{% block body %}
+    <style>
+        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    </style>
+
+    <div class="example-wrapper">
+        <h1>Ajouter un employé</h1>
+
+        {{ form_start(form) }}
+
+        {{ form_row(form.lastname) }}
+
+        {{ form_row(form.firstname) }}
+
+        {{ form_row(form.photo) }}
+
+        {{ form_row(form.sector) }}
+
+        {{ form_row(form.email) }}
+
+        {{ form_row(form.password) }}
+
+        {{ form_row(form.roles) }}
+
+        {{ form_label(form.save) }}
+        {{ form_widget(form.save) }}
+
+        {{ form_widget(form._token) }}
+
+        {{ form_end(form) }}
+
+        <a href="{{ path('user') }}">Finalement, je veux revoir la liste de mes employés</a>
+
+        <ul>
+            {% if form.vars.errors.form.getErrors(true)|length > 0 %}
+                {% for error in form.vars.errors.form.getErrors(true) %}
+                    <li>{{ error.message }}</li>
+                {% endfor %}
+            {% endif %}
+        </ul>
+    </div>
+{% endblock %}

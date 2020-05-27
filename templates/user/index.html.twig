@@ -1,0 +1,51 @@
+{% block menu %}
+    {% include 'parts/menu.html.twig' %}
+{% endblock menu %}
+
+{% block title %}Annuaire{% endblock %}
+
+{% block body %}
+    <style>
+        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    </style>
+
+    <div class="example-wrapper">
+        <h2>Liste des employés :</h2>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Prénom</th>
+                <th scope="col">Secteur</th>
+                <th scope="col">Photo</th>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <th scope="col">Supprimer</th>
+                {% endif %}
+            </tr>
+            </thead>
+            <tbody>
+            {% for user in users %}
+                <tr>
+                    <th scope="row">{{ user.id }}</th>
+                    <td>{{ user.lastname }}</td>
+                    <td>{{ user.firstname }}</td>
+                    <td>{{ user.sector }}</td>
+                    <td><img alt="photo de l'employé {{ user.photo }}" src="{{ asset('images')}}/{{ user.photo }}" width="200"></td>
+
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <td>
+                            <a href="{{ path('delete_user', {'user' : user.id}) }}">Supprimer l'employé</a><br><br>
+                        </td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% if is_granted('ROLE_ADMIN') %}
+            <a href="{{ path('add_user') }}">Ajouter un employé</a>
+        {% endif %}
+
+    </div>
+{% endblock %}
